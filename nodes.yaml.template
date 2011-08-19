@@ -1,0 +1,33 @@
+# application servers
+staging:
+  user: root
+  # not a great idea
+  password: useidentinstead # but works!
+  # ip overrides local hostname resolution
+  ip: 192.168.1.10
+  
+production:
+  user: root
+  # a better idea
+  identity: ~/.ssh/loom/prod.pub
+  ip: 192.168.1.11
+
+# database servers
+db1:
+  user: mysql
+  # no auth information requires
+  # that the local user's ssh key
+  # has been installed on target server
+
+db2:
+  user: mysql
+
+db3:
+  user: mysql
+
+db4:
+  user: mysql
+  
+
+  
+
