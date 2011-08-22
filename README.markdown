@@ -1,7 +1,7 @@
-loom
+Loom
 ====
 
-loom is a server-daemon that provides concurrent task-scheduling for clusters and servers. It consists of a Twisted daemon
+Loom is a server-daemon that provides concurrent task-scheduling for clusters and servers. It consists of a Twisted daemon
 that reads in target-node and scheduling information from flexible YAML configuration files. As job schedules come to
 bear, task-work is applied to remote nodes via the Paramiko/SSH API, Fabric. Tasks applied to multiple nodes are
 applied to each node seperately in a child-process allowing Loom to provide Fabric with some measure of concurrency.
@@ -9,7 +9,7 @@ applied to each node seperately in a child-process allowing Loom to provide Fabr
 installation
 ------------
 
-in a location of your choice, clone the loom git repository:
+in a location of your choice, clone the Loom git repository:
 
     cd ~/
     git clone git://github.com/dustinlacewell/loom.git
@@ -80,7 +80,7 @@ The structure is quite simple and allows you to very expressively describe the p
 datafile
 --------
 
-The datafile is a special file that contains YAML data that will be prepended to all of your job-manifests before being processed. This allows you to define certain complex data as **YAML Anchors**  that can be resued througout your manifests. If you need to pass complex values to your task callables this is a good place to define it. Of course you are not limited to putting your complex data here. Each job-manifest can contain it's own YAML Anchors however they will only be available from that specific manifest. Here is the contents of the example datafile shipped with loom:
+The datafile is a special file that contains YAML data that will be prepended to all of your job-manifests before being processed. This allows you to define certain complex data as **YAML Anchors**  that can be resued througout your manifests. If you need to pass complex values to your task callables this is a good place to define it. Of course you are not limited to putting your complex data here. Each job-manifest can contain it's own YAML Anchors however they will only be available from that specific manifest. Here is the contents of the example datafile shipped with Loom:
 
 ```yaml
 hosts: 
