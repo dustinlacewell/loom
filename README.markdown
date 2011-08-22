@@ -27,12 +27,12 @@ staging:
   ip: 192.168.1.10
 ```
 
-#### node attributes
+### node attributes
 
 here are a list of all possible node attributes:
 
- + *YAML key*: the locally resolvable hostname
- + *ip*: override hostname with specified IP address
- + *user*: user under which node work will take place
- + *password*: password for user above
- + *identity*: a locally accessible ssh identity to use instead of user/password
+ + **YAML key**: the locally resolvable hostname
+ + **ip**: override hostname with specified IP address
+ + **user**: user under which node work will take place
+ + **password**: password for user above
+ + **identity**: a locally accessible ssh identity to use instead of user/password
