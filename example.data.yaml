@@ -1,0 +1,20 @@
+# yaml supports anchored references
+# you can use these to reduce repetition
+hosts: 
+    - &cloudhosts [staging, production]
+    - &dbservers [db1, db2, db3, db4]
+
+# larger data structures are easier to
+# read when they are defined on their own
+# and referenced later
+mountpoints:
+    - &storage
+        host: staging@attic
+        remotepath: /mnt/storage
+        mountpoint: /mnt/storage
+        excludes: [staging]
+    - &rootutils
+        host: staging@attic
+        remotepath: /mnt/rootutils
+        mountpoint: /mnt/rootutils
+        excludes: [staging]
