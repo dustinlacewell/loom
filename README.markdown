@@ -19,7 +19,7 @@ nodes.yaml
 
 nodes that can be used in job definitions are declared in a file in the parent directory called **`nodes.yaml'**. The
 definitions are quite simple. The YAML key should be the locally resolvable hostname of the node, in this example it
-it is *`staging'*:
+it is `*staging*' :
 
 ```yaml
 staging:
