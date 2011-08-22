@@ -75,3 +75,28 @@ The structure is quite simple and allows you to very expressively describe the p
  + **schedule** : a regular cron scheduling definition
  + **targets** : a list of node names, defined in your nodesfile
  + **description** : textual description of the job
+
+
+datafile
+--------
+
+The datafile is a special file that contains YAML data that will be prepended to all of your job-manifests before being processed. This allows you to define certain complex data as **YAML Anchors**  that can be resued througout your manifests. If you need to pass complex values to your task callables this is a good place to define it. Of course you are not limited to putting your complex data here. Each job-manifest can contain it's own YAML Anchors however they will only be available from that specific manifest. Here is the contents of the example datafile shipped with loom:
+
+```yaml
+hosts: 
+    - &cloudhosts [staging, production]
+    - &dbservers [db1, db2, db3, db4]
+mountpoints:
+    - &storage
+        host: root@staging
+        remotepath: /mnt/storage
+        mountpoint: /mnt/storage
+        excludes: [staging]
+    - &rootutils
+        host: root@staging
+        remotepath: /mnt/rootutils
+        mountpoint: /mnt/rootutils
+        excludes: [staging]
+```
+
+You can see that we have defined collections for our different node types and a couple structures claiming to be mountpoints. The hosts anchors are easy to understand. They allow you to categorically refer to your defined nodes with a single identifier. The mountpoints however are not data that is specifically relevant to Loom. It is data that is passed to your job tasks as argument values. If you scroll up, you can see that we refer to the **storage** mountpoint as the **args** parameter in the **mountstorage** job-manifest. Pretty handy.
