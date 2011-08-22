@@ -13,10 +13,11 @@ in a location of your choice, clone the Loom git repository:
 
     cd ~/
     git clone git://github.com/dustinlacewell/loom.git
+    cd loom
+    sudo python setup.py install
 
 loom.yaml
 ---------
-
 The main configuration format for Loom is YAML. When Loom starts it will search a few paths for the main configuration file, usually **~/.loom.yaml** If you have a special need to place this file elsewhere you can specify it with the -c/--config commandline option. Some configuration options are required and tell Loom where to find your **node** and **job** manifests. Other options are optional, like **datafile** which contains YAML that will be prepended to each of your job-manifests. We'll describe the datafile option later. Here are some of the important options you can specify:
 
  + **nodesfile** : Path to your node-manifest file
@@ -25,7 +26,6 @@ The main configuration format for Loom is YAML. When Loom starts it will search 
 
 nodesfile
 ---------
-
 nodes that can be used in job definitions are declared in a file specified by the **nodesfile** setting. The definitions are quite simple. The YAML key should be the locally resolvable hostname of the node and is the name used to refer to the node in the job manifests. In this example it it is **staging**:
 
 ```yaml
@@ -47,7 +47,6 @@ here are a list of all possible node attributes:
 
 jobspath
 --------
-
 In Loom, jobs are the combination of a cron-schedule, a list of target nodes and a python import path that designates the callable that should be applied to each node. The **jobspath** configuration option should specify a path where your job-manifests can be found. This path will be searched recursively for any files ending in the extension **.yaml** that contain a top-level YAML dictionary key **jobs**. The value should be a dictionary with each key being the name of a job. The job definition should follow. Here is the example job manifest that ships with Loom:
 
 ```yaml
@@ -79,8 +78,7 @@ The structure is quite simple and allows you to very expressively describe the p
 
 datafile
 --------
-
-The datafile is a special file that contains YAML data that will be prepended to all of your job-manifests before being processed. This allows you to define certain complex data as **YAML Anchors**  that can be resued througout your manifests. If you need to pass complex values to your task callables this is a good place to define it. Of course you are not limited to putting your complex data here. Each job-manifest can contain it's own YAML Anchors however they will only be available from that specific manifest. Here is the contents of the example datafile shipped with Loom:
+The datafile is a special file that contains YAML data that will be prepended to all of your job-manifests before being processed. This allows you to define certain complex data as **YAML Anchors**  that can be resued througout your manifests. If you need to pass complex values to your task callables this is a good place to define it. Of course you are not limited to putting your complex data here. Each job-manifest can contain it's own YAML Anchors however they will only be available from that specific manifest. Here is the contents of the example datafile shipped with loom:
 
 ```yaml
 hosts: 
@@ -100,3 +98,14 @@ mountpoints:
 ```
 
 You can see that we have defined collections for our different node types and a couple structures claiming to be mountpoints. The hosts anchors are easy to understand. They allow you to categorically refer to your defined nodes with a single identifier. The mountpoints however are not data that is specifically relevant to Loom. It is data that is passed to your job tasks as argument values. If you scroll up, you can see that we refer to the **storage** mountpoint as the **args** parameter in the **mountstorage** job-manifest. Pretty handy.
+
+starting the daemon
+-------------------
+
+Loom is built and packaged as a Twisted plugin and so the **'twistd'** command is used to interact with it. After writing your loom config and node and job manifests you can start loom with the following command:
+
+    twistd loom -c <path-to-your-loom-config>
+    
+Or if you'd like to see the output on stdout:
+
+    twistd -n loom -c <path-to-your-loom-config>
