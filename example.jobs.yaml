@@ -31,7 +31,7 @@ jobs:
         # standard cron scheduling
         schedule: "* * * * *"
         # node targets, defined in nodes.yaml
-        targets: *dbservers
+        targets: [staging, production]
         # job description
         description: Mount storage on forge and hive
     testtask:
@@ -41,5 +41,5 @@ jobs:
         task: fabric.api.run
         args: ["touch /tmp/loom_was_here"]
         schedule: "* * * * *"
-        targets: [staging, production]
+        targets: *dbservers
         description: Leave our mark
