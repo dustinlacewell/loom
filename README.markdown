@@ -17,9 +17,9 @@ in a location of your choice, clone the loom git repository:
 nodes.yaml
 ----------
 
-nodes that can be used in job definitions are declared in a file in the parent directory called **`nodes.yaml'**. The
-definitions are quite simple. The YAML key should be the locally resolvable hostname of the node, in this example it
-it is `*staging*' :
+nodes that can be used in job definitions are declared in a file in the parent directory called `**nodes.yaml**'. The
+definitions are quite simple. The YAML key should be the locally resolvable hostname of the node and is the name used
+to refer to the node in the job manifests. In this example it it is `**staging**' :
 
 ```yaml
 staging:
