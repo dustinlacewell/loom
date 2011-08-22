@@ -9,7 +9,10 @@ from loom.scheduler import LoomSchedulingService
 
 class Options(usage.Options):
     optParameters = [
-        ["config", "c", "~/.loom.yaml,/etc/loom.yaml,/etc/loom/loom.yaml", "comma seperated list of possible loom configurations"]]
+        ["config", 
+         "c", 
+         "~/.loom.yaml,/etc/loom.yaml,/etc/loom/loom.yaml", 
+         "comma seperated list of possible loom config files\n"]]
 
 class LoomSchedulingServiceMaker(object):
     implements(IServiceMaker, IPlugin)
