@@ -19,7 +19,7 @@ class LoomSchedulingService(service.Service):
         self.jobs = dict()
         self.loadConfigs()
 
-    def cancelAllJobs(self):
+    def stopAllJobs(self):
         "cancel all registered jobs"
         for name, job in self.jobs.items():
             job.stop()
@@ -30,7 +30,7 @@ class LoomSchedulingService(service.Service):
             job.start()
 
     def watcherCallback(self):
-        self.cancelAllJobs()
+        self.stopAllJobs()
         self.loadConfigs()
         self.startAllJobs()
 
@@ -39,6 +39,7 @@ class LoomSchedulingService(service.Service):
         self.config = self.loadBaseConf()
         self.nodes = self.loadNodeConf()
         self.jobs = self.loadJobConfs()
+        print self.jobs
 
     def loadBaseConf(self):
         "load base configuration"
@@ -69,7 +70,7 @@ class LoomSchedulingService(service.Service):
 
     def stopService(self):
         "stop all loaded jobs"
-        self.cancelAllJobs()
+        self.stopAllJobs()
 
 
 
