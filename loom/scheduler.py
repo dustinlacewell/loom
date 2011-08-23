@@ -32,7 +32,8 @@ class LoomSchedulingService(service.Service):
 
     def loadBaseConf(self):
         "load base configuration"
-        if not self.config_paths:
+        config_paths = self.config_paths
+        if not config_paths:
             config_paths = default_config_paths
         for path in config_paths:
             if os.path.isfile(path):
