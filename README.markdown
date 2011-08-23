@@ -13,6 +13,8 @@ in a location of your choice, clone the loom git repository:
 
     cd ~/
     git clone git://github.com/dustinlacewell/loom.git
+    cd loom
+    sudo python setup.py install
 
 loom.yaml
 ---------
@@ -96,3 +98,14 @@ mountpoints:
 ```
 
 You can see that we have defined collections for our different node types and a couple structures claiming to be mountpoints. The hosts anchors are easy to understand. They allow you to categorically refer to your defined nodes with a single identifier. The mountpoints however are not data that is specifically relevant to Loom. It is data that is passed to your job tasks as argument values. If you scroll up, you can see that we refer to the **storage** mountpoint as the **args** parameter in the **mountstorage** job-manifest. Pretty handy.
+
+starting the daemon
+-------------------
+
+Loom is built and packaged as a Twisted plugin and so the **'twistd'** command is used to interact with it. After writing your loom config and node and job manifests you can start loom with the following command:
+
+    twistd loom -c <path-to-your-loom-config>
+    
+Or if you'd like to see the output on stdout:
+
+    twistd -n loom -c <path-to-your-loom-config>
