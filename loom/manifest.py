@@ -1,5 +1,7 @@
 import os
 
+from twisted.internet.task import LoopingCall
+
 from loom.util import load, dump
 
 class ManifestWatcher(object):
