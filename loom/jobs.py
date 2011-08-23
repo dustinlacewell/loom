@@ -57,7 +57,6 @@ class LoomJob(object):
         "enable schedule for this job"
         if not self._timer.running:
             self._timer.start(self.schedule)
-            self.execute()
 
     def stop(self):
         "disable schedule for this job"
