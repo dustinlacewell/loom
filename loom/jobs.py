@@ -57,12 +57,14 @@ class LoomJob(object):
 
     def start(self):
         "enable schedule for this job"
-        self._timer.start(self.schedule)
-        self.execute()
+        if not self._timer.running:
+            self._timer.start(self.schedule)
+            self.execute()
 
     def stop(self):
         "disable schedule for this job"
-        self._timer.stop()
+        if self._timer.running:
+            self._timer.stop()
 
     @defer.inlineCallbacks
     def execute(self):
