@@ -15,7 +15,7 @@ default_config_paths = [
 class LoomSchedulingService(service.Service):
     def __init__(self, config_paths=''):
         self.config_paths = config_paths.split(',')
-        self.watcher = ManifestWatcher(self.loadConfigs)
+        self.watcher = ManifestWatcher(self.watcherCallback)
         self.jobs = dict()
         self.loadConfigs()
 
@@ -23,6 +23,16 @@ class LoomSchedulingService(service.Service):
         "cancel all registered jobs"
         for name, job in self.jobs.items():
             job.stop()
+
+    def startAllJobs(self):
+        "start all registered jobs"
+        for name, job in self.jobs.items():
+            job.start()
+
+    def watcherCallback(self):
+        self.cancelAllJobs()
+        self.loadConfigs()
+        self.startAllJobs()
 
     def loadConfigs(self):
         "load all configs"
@@ -55,8 +65,7 @@ class LoomSchedulingService(service.Service):
 
     def startService(self):
         "start all loaded jobs"
-        for name, job in self.jobs.items():
-            job.start()
+        self.startAllJobs()
 
     def stopService(self):
         "stop all loaded jobs"
