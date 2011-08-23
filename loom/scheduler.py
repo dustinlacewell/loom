@@ -1,9 +1,9 @@
 import os
 
 from twisted.application import service
-from twisted.internet import protocol
+from twisted.internet import protocol, defer
 
-from loom import nodes, jobs, util
+from loom import nodes, jobs, util, amp
 from loom.manifest import ManifestWatcher
 
 default_config_paths = [
@@ -15,6 +15,7 @@ default_config_paths = [
 class LoomSchedulingService(service.Service):
     def __init__(self, config_paths=''):
         self.config_paths = config_paths.split(',')
+        self.pp = pool.ProcessPool(amp.JobProtocol, min=1, max=50)
         self.watcher = ManifestWatcher(self.watcherCallback)
         self.jobs = dict()
         self.loadConfigs()
@@ -64,12 +65,16 @@ class LoomSchedulingService(service.Service):
                          self.config['jobspath'], 
                          self.config.get('datafile'))
 
+    @defer.inlineCallbacks
     def startService(self):
         "start all loaded jobs"
+        yield self.pp.start()
         self.startAllJobs()
 
+    @defer.inlineCallbacks
     def stopService(self):
         "stop all loaded jobs"
+        yield self.pp.stop()
         self.stopAllJobs()
 
 
