@@ -1,9 +1,9 @@
-from loom import amp
+from loom import util
 
 def load(filename):
     nodes = {}
     with open(filename, 'r') as yaml:
-        data = amp.load(yaml)
+        data = util.load(yaml)
     for hostname, node in data.items():
         nodes[hostname] = LoomNode(hostname, **node)
     return nodes
@@ -17,7 +17,7 @@ class LoomNode(object):
         self.identity = kwargs.get('identity', '')
 
     def __amp__(self):
-        return amp.dump((self.hostname,
+        return util.dump((self.hostname,
                 self.ip,
                 self.user,
                 self.password,

@@ -12,7 +12,7 @@ from ampoule import child, pool
 
 from fabric.api import run, env
 
-from loom import amp
+from loom import util, amp
 
 def load(scheduler, jobs_path, data_path=None):
     "load all jobs from specified yaml file"
@@ -20,7 +20,7 @@ def load(scheduler, jobs_path, data_path=None):
     front_matter = ''
     if data_path:
         with open(data_path, 'r') as yaml:
-            front_matter = amp.load(yaml) + "\n\n"
+            front_matter = util.load(yaml) + "\n\n"
     # find all job files under jobs path
     job_files = []
     for r,d,f in os.walk(jobs_path):
@@ -31,8 +31,9 @@ def load(scheduler, jobs_path, data_path=None):
     jobs = {}
     for job_file in job_files:
         with open(job_file, 'r') as yaml:
-            data = amp.load(front_matter + yaml.read())
+            data = util.load(front_matter + yaml.read())
         if 'jobs' in data:
+            scheduler.watcher.watch(job_file)
             for name, job in data['jobs'].items():
                 jobs[name] = LoomJob(scheduler, name, **job)
     print len(jobs), "jobs loaded."
@@ -44,8 +45,8 @@ class LoomJob(object):
         self.scheduler = scheduler
         self.name = name
         self.taskpath = kwargs['task']
-        self.args = amp.dump(kwargs.get('args', []))
-        self.kwargs = amp.dump(kwargs.get('kwargs', {}))
+        self.args = util.dump(kwargs.get('args', []))
+        self.kwargs = util.dump(kwargs.get('kwargs', {}))
         self.targets = [scheduler.nodes[host] for host in kwargs['targets']]
         self.schedule = CronSchedule(kwargs.get('schedule', "* * * * *"))
         self._timer = ScheduledCall(self.execute)
