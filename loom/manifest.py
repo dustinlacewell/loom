@@ -12,7 +12,7 @@ class ManifestWatcher(object):
         self.files = dict()
 
     def invoke_callback(self):
-        self.callback(*args, **kwargs)
+        self.callback(*self.args, **self.kwargs)
 
     def check(self, filepath):
         new_time = os.path.getmtime(filepath)
