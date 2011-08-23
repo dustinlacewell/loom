@@ -8,8 +8,6 @@ from twisted.protocols import amp
 from twisted.scheduling.cron import CronSchedule
 from twisted.scheduling.task import ScheduledCall
 
-from ampoule import child, pool
-
 from fabric.api import run, env
 
 from loom import util, amp
@@ -70,13 +68,10 @@ class LoomJob(object):
     def execute(self):
         "execute scheduled task"
         deferreds = []
-        pp = pool.ProcessPool(amp.JobProtocol, min=1, max=5)
-        yield pp.start()
         for node in self.targets:
-            deferreds.append(pp.doWork(amp.ExecuteTask, **{
+            deferreds.append(self.scheduler.pp.doWork(amp.ExecuteTask, **{
                         'nodeinfo': node.__amp__(),
                         'taskpath': self.taskpath,
                         'args': self.args,
                         'kwargs': self.kwargs}))
         results = yield defer.gatherResults(deferreds)
-        yield pp.stop()

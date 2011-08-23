@@ -3,6 +3,8 @@ import os
 from twisted.application import service
 from twisted.internet import protocol, defer
 
+from ampoule import child, pool
+
 from loom import nodes, jobs, util, amp
 from loom.manifest import ManifestWatcher
 
