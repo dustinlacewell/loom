@@ -16,7 +16,6 @@ in a location of your choice, clone the loom git repository:
 
 loom.yaml
 ---------
-
 The main configuration format for Loom is YAML. When Loom starts it will search a few paths for the main configuration file, usually **~/.loom.yaml** If you have a special need to place this file elsewhere you can specify it with the -c/--config commandline option. Some configuration options are required and tell Loom where to find your **node** and **job** manifests. Other options are optional, like **datafile** which contains YAML that will be prepended to each of your job-manifests. We'll describe the datafile option later. Here are some of the important options you can specify:
 
  + **nodesfile** : Path to your node-manifest file
@@ -25,7 +24,6 @@ The main configuration format for Loom is YAML. When Loom starts it will search 
 
 nodesfile
 ---------
-
 nodes that can be used in job definitions are declared in a file specified by the **nodesfile** setting. The definitions are quite simple. The YAML key should be the locally resolvable hostname of the node and is the name used to refer to the node in the job manifests. In this example it it is **staging**:
 
 ```yaml
@@ -47,7 +45,6 @@ here are a list of all possible node attributes:
 
 jobspath
 --------
-
 In Loom, jobs are the combination of a cron-schedule, a list of target nodes and a python import path that designates the callable that should be applied to each node. The **jobspath** configuration option should specify a path where your job-manifests can be found. This path will be searched recursively for any files ending in the extension **.yaml** that contain a top-level YAML dictionary key **jobs**. The value should be a dictionary with each key being the name of a job. The job definition should follow. Here is the example job manifest that ships with Loom:
 
 ```yaml
@@ -79,7 +76,6 @@ The structure is quite simple and allows you to very expressively describe the p
 
 datafile
 --------
-
 The datafile is a special file that contains YAML data that will be prepended to all of your job-manifests before being processed. This allows you to define certain complex data as **YAML Anchors**  that can be resued througout your manifests. If you need to pass complex values to your task callables this is a good place to define it. Of course you are not limited to putting your complex data here. Each job-manifest can contain it's own YAML Anchors however they will only be available from that specific manifest. Here is the contents of the example datafile shipped with loom:
 
 ```yaml
