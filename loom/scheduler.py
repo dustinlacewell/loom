@@ -22,12 +22,14 @@ class LoomSchedulingService(service.Service):
     def stopAllJobs(self):
         "cancel all registered jobs"
         for name, job in self.jobs.items():
-            job.stop()
+            if job.running:
+                job.stop()
 
     def startAllJobs(self):
         "start all registered jobs"
         for name, job in self.jobs.items():
-            job.start()
+            if not job.running:
+                job.start()
 
     def watcherCallback(self):
         self.stopAllJobs()
