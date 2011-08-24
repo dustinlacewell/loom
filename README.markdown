@@ -15,6 +15,16 @@ in a location of your choice, clone the Loom git repository:
     git clone git://github.com/dustinlacewell/loom.git
     cd loom
     sudo python setup.py install
+    
+### configuration files
+
+You can configure whatever specific directories you want for each of the configuration or manifest locations that Loom searches. The suggested place to put them however is in your home directory under the directory `~/.loom`:
+
+    cd
+    mkdir .loom
+    touch .loom/loom.yaml
+    touch .loom/nodes.yaml
+    mkdir .loom/jobs/
 
 loom.yaml
 ---------
