@@ -23,6 +23,8 @@ The main configuration format for Loom is YAML. When Loom starts it will search 
  + **nodesfile** : Path to your node-manifest file
  + **jobspath** : Path containing your job-manifests
  + **datafile** : Path to your data-manifest containing YAML to be prepended to each job-manifest
+ + **min_workers**: Minimum amount of child worker-processes to maintain (default: 0)
+ + **max_workers**: Maximum amount of child worker-processes to maintain (default: 10)
 
 nodesfile
 ---------
@@ -33,6 +35,13 @@ staging:
   user: root
   password: useidentinstead
   ip: 192.168.1.10
+```
+
+If your loom user on the server that hosts your loom instance is already setup for passwordless SSH access to your nodes and the nodes have locally configured hostnames (/etc/hosts) then a node manifest can be as simple as:
+
+```yaml
+staging: # node name will resolve to ip
+  user: root # user still needs to be supplied
 ```
 
 ### node attributes
@@ -65,9 +74,9 @@ jobs:
         description: Leave our mark
 ```
 
-The structure is quite simple and allows you to very expressively describe the parameters of a scheduled job. You'll notice that, say in the case of **mountstorage** that the **args** parameter contains a YAML reference. The **testtask** targets are also specified as a YAML reference. These references may be defined in your **datafile** and referred to in multiple places in your manifests. The datafile will be described shortly. First though, let's go through the job parameters that you can specify:
+The structure is quite simple and allows you to describe the parameters of a scheduled job. You'll notice that, say in the case of  the **mountstorage** job that the **args** parameter contains a YAML reference. The **testtask** job's targets are also specified as a YAML reference. These references may be defined in your **datafile** and referred to in multiple places in your manifests. The datafile will be described shortly. First though, let's go through the job parameters that you can specify:
 
- + **YAML key** : Job name
+ + **YAML key** : job name
  + **task** : a Python import path pointing to a Python ''callable'' (usually a Fabric task)
  + **args** : a list of values to pass as arguments to the task callable
  + **kwargs** : a dictionary of values to pass as keyword-arguments to the task callable
@@ -109,3 +118,13 @@ Loom is built and packaged as a Twisted plugin and so the **'twistd'** command i
 Or if you'd like to see the output on stdout:
 
     twistd -n loom -c <path-to-your-loom-config>
+    
+current outstanding issues
+--------------------------
+
+### logging
+ + Ampoule spams the twisted log and doesn't use the "system" keyword so that its messages can be filtered. Ampoule will probably need to be patched to fix this.
+ + Each job manifest should take a log option and we should route job output there
+ + Logging in general is unhandled and not investigated at this point
+ 
+ 
