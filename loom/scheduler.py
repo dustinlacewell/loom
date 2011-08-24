@@ -69,10 +69,7 @@ class LoomSchedulingService(service.Service):
         "initialize the process pool"
         min = self.config.get('min_workers', 0)
         max = self.config.get('max_workers', 10)
-        print "*\n"*5
-        print "min,",min
-        print "max,",max
-        return pool.ProcessPool(amp.JobProtocol, min=0, max=50)
+        return pool.ProcessPool(amp.JobProtocol, min=min, max=max)
         
 
     @defer.inlineCallbacks
