@@ -17,7 +17,7 @@ default_config_paths = [
 class LoomSchedulingService(service.Service):
     def __init__(self, config_paths=''):
         self.config_paths = config_paths.split(',')
-        self.pp = pool.ProcessPool(amp.JobProtocol, min=5, max=50)
+        self.pp = pool.ProcessPool(amp.JobProtocol, min=0, max=50)
         self.watcher = ManifestWatcher(self.watcherCallback)
         self.jobs = dict()
         self.loadConfigs()
