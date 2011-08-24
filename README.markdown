@@ -37,7 +37,7 @@ staging:
   ip: 192.168.1.10
 ```
 
-If your loom user on the server that hosts your loom instance is already setup for passwordless SSH access to your nodes and the nodes have locally configured hostnames (/etc/hosts) then a node manifest can be as simple as:
+If your loom user on the server that hosts your loom instance is already setup for passwordless SSH access to your nodes and the server has locally configured hostnames (/etc/hosts) for the nodes then a node-manifest can be as simple as:
 
 ```yaml
 staging: # node name will resolve to ip
