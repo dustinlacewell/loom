@@ -127,4 +127,13 @@ current outstanding issues
  + Each job manifest should take a log option and we should route job output there
  + Logging in general is unhandled and not investigated at this point
  
+### scheduler
+ + The scheduler is extremely basic. It makes no effort to track job success or failure, does not try to make up missed work and other things you might expect of a capable scheduler. We'll get there.
+ 
+### stability
+ + Loom needs a lot more exception handling
+ 
+### users
+ + Loom needs a lot more of them ;P
+ 
  
