@@ -63,7 +63,6 @@ class LoomJob(object):
         if self._timer.running:
             self._timer.stop()
 
-    @defer.inlineCallbacks
     def execute(self):
         "execute scheduled task"
         deferreds = []
@@ -73,4 +72,4 @@ class LoomJob(object):
                         'taskpath': self.taskpath,
                         'args': self.args,
                         'kwargs': self.kwargs}))
-        results = yield defer.gatherResults(deferreds)
+        return defer.gatherResults(deferreds)
