@@ -157,4 +157,6 @@ things to look forward to
  
 ### resource manifests
  + Being able to enforce resource manifests similar to other tools like Puppet or Chef using Fabric as the transport would be some fancy pants. I can only imagine that a good resource manifest layer would highly increase loom's general utility.
- 
+
+### bash completion
+ + this is more of a wish-list item but being able to automatically tab-complete job and node names and their attributes would be handy
