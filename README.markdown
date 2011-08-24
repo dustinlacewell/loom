@@ -148,7 +148,8 @@ things to look forward to
  + web-interface!?
  
 ### remote loom utility
- + This will probably rely some amount on the external interface but I'd like a utility that I can run on my local workstation that can interact with the loom server remotely. Mmmm.
+ + This will probably rely some amount on the external interface noted above but I'd like a utility that I can run on my local workstation that can interact with the loom server remotely. Mmmm.
  
- 
+### resource manifests
+ + Being able to enforce resource manifests similar to other tools like Puppet or Chef using Fabric as the transport would be some fancy pants. I can only imagine that a good resource manifest layer would highly increase loom's general utility.
  
