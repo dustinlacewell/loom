@@ -3,8 +3,8 @@ Loom
 
 Loom is a server-daemon that provides concurrent task-scheduling for clusters and servers. It consists of a Twisted daemon
 that reads in target-node and scheduling information from flexible YAML configuration files. As job schedules come to
-bear, task-work is applied to remote nodes via the Paramiko/SSH API, Fabric. Tasks applied to multiple nodes are
-applied to each node seperately in a child-process allowing Loom to provide Fabric with some measure of concurrency.
+bear, task-work is applied to remote nodes via the Paramiko/SSH API, Fabric. Loom relies upon the Twisted library, Ampoule
+to achieve concurrency and tasks applied to multiple nodes are each applied seperately in a child-process.
 
 installation
 ------------
