@@ -16,11 +16,8 @@ default_config_paths = [
   
 class LoomSchedulingService(service.Service):
     def __init__(self, config_paths=''):
-        self.config_paths = config_paths.split(',')
-        self.pp = pool.ProcessPool(amp.JobProtocol, min=0, max=50)
         self.watcher = ManifestWatcher(self.watcherCallback)
-        self.jobs = dict()
-        self.loadConfigs()
+        self.loadConfigs(config_paths)
 
     def stopAllJobs(self):
         "cancel all registered jobs"
@@ -37,12 +34,13 @@ class LoomSchedulingService(service.Service):
         self.loadConfigs()
         self.startAllJobs()
 
-    def loadConfigs(self):
+    def loadConfigs(self, config_paths):
         "load all configs"
+        self.config_paths = config_paths.split(',')
         self.config = self.loadBaseConf()
+        self.pp = self.loadPool()
         self.nodes = self.loadNodeConf()
         self.jobs = self.loadJobConfs()
-        print self.jobs
 
     def loadBaseConf(self):
         "load base configuration"
@@ -66,6 +64,13 @@ class LoomSchedulingService(service.Service):
         return jobs.load(self, 
                          self.config['jobspath'], 
                          self.config.get('datafile'))
+
+    def loadPool(self):
+        "initialize the process pool"
+        min = self.config.get('min_workers', 0)
+        max = self.config.get('max_workers', 10)
+        return pool.ProcessPool(amp.JobProtocol, min=0, max=50)
+        
 
     @defer.inlineCallbacks
     def startService(self):
