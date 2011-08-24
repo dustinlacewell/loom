@@ -119,6 +119,11 @@ Or if you'd like to see the output on stdout:
 
     twistd -n loom -c <path-to-your-loom-config>
     
+updating configurations
+-----------------------
+
+Loom will automatically reload, going through the entire configuration and manifest parsing process anytime you change a file it already has loaded. This includes both the main configuration file and the node and job manifests. However note that Loom will not automatically detect new job manifests and load them. A restart of the daemon will be needed for that.
+    
 current outstanding issues
 --------------------------
 
