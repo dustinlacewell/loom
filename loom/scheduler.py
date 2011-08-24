@@ -31,7 +31,7 @@ class LoomSchedulingService(service.Service):
 
     def watcherCallback(self):
         self.stopAllJobs()
-        self.loadConfigs()
+        self.loadConfigs(self.config_paths)
         self.startAllJobs()
 
     def loadConfigs(self, config_paths):
