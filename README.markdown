@@ -155,13 +155,13 @@ current outstanding issues
 things to look forward to
 -------------------------
 
-### twistd subcommands
- + I would like to support subcommands that you can provide to the 'twistd loom' command-line. Things like invoking jobs directly, turning jobs on and off by name, querying the scheduler in various ways, etc.
- 
 ### reusable tasks
  + Loom should provide a standard-library of sorts for system-management related Fabric tasks. They'd need to generic enough to be used widely.
  + Perhaps we could even provide namespace packages like loom.apache, loom.debian, loom.whatever for categorically related generic Fabric libraries!
 
+### twistd subcommands
+ + I would like to support subcommands that you can provide to the 'twistd loom' command-line. Things like invoking jobs directly, turning jobs on and off by name, querying the scheduler in various ways, etc.
+ 
 ### external interface
  + at some point I would also like to expose similar abilities to interact with the scheduler via a web-api of some sort. Either REST or something like Amazon notifications
  + web-interface!?
