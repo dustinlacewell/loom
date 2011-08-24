@@ -137,3 +137,18 @@ current outstanding issues
  + Loom needs a lot more of them ;P
  
  
+things to look forward to
+-------------------------
+
+### twistd subcommands
+ + I would like to support subcommands that you can provide to the 'twistd loom' command-line. Things like invoking jobs directly, turning jobs on and off by name, querying the scheduler in various ways, etc.
+ 
+### external interface
+ + at some point I would also like to expose similar abilities to interact with the scheduler via a web-api of some sort. Either REST or something like Amazon notifications
+ + web-interface!?
+ 
+### remote loom utility
+ + This will probably rely some amount on the external interface but I'd like a utility that I can run on my local workstation that can interact with the loom server remotely. Mmmm.
+ 
+ 
+ 
