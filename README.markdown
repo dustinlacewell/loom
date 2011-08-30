@@ -3,8 +3,8 @@ Loom
 
 Loom is a server-daemon that provides concurrent task-scheduling for clusters and servers. It consists of a Twisted daemon
 that reads in target-node and scheduling information from flexible YAML configuration files. As job schedules come to
-bear, task-work is applied to remote nodes via the Paramiko/SSH API, Fabric. Tasks applied to multiple nodes are
-applied to each node seperately in a child-process allowing Loom to provide Fabric with some measure of concurrency.
+bear, task-work is applied to remote nodes via the Paramiko/SSH API, Fabric. Loom relies upon the Twisted library, Ampoule
+to achieve concurrency and tasks applied to multiple nodes are each applied seperately in a child-process.
 
 installation
 ------------
@@ -15,6 +15,16 @@ in a location of your choice, clone the Loom git repository:
     git clone git://github.com/dustinlacewell/loom.git
     cd loom
     sudo python setup.py install
+    
+### configuration files
+
+You can configure whatever specific directories you want for each of the configuration or manifest locations that Loom searches. The suggested place to put them however is in your home directory under the directory `~/.loom`:
+
+    cd
+    mkdir .loom
+    touch .loom/loom.yaml
+    touch .loom/nodes.yaml
+    mkdir .loom/jobs/
 
 loom.yaml
 ---------
@@ -23,6 +33,8 @@ The main configuration format for Loom is YAML. When Loom starts it will search 
  + **nodesfile** : Path to your node-manifest file
  + **jobspath** : Path containing your job-manifests
  + **datafile** : Path to your data-manifest containing YAML to be prepended to each job-manifest
+ + **min_workers**: Minimum amount of child worker-processes to maintain (default: 0)
+ + **max_workers**: Maximum amount of child worker-processes to maintain (default: 10)
 
 nodesfile
 ---------
@@ -33,6 +45,13 @@ staging:
   user: root
   password: useidentinstead
   ip: 192.168.1.10
+```
+
+If your loom user on the server that hosts your loom instance is already setup for passwordless SSH access to your nodes and the server has locally configured hostnames (/etc/hosts) for the nodes then a node-manifest can be as simple as:
+
+```yaml
+staging: # node name will resolve to ip
+  user: root # user still needs to be supplied
 ```
 
 ### node attributes
@@ -65,9 +84,9 @@ jobs:
         description: Leave our mark
 ```
 
-The structure is quite simple and allows you to very expressively describe the parameters of a scheduled job. You'll notice that, say in the case of **mountstorage** that the **args** parameter contains a YAML reference. The **testtask** targets are also specified as a YAML reference. These references may be defined in your **datafile** and referred to in multiple places in your manifests. The datafile will be described shortly. First though, let's go through the job parameters that you can specify:
+The structure is quite simple and allows you to describe the parameters of a scheduled job. You'll notice that, say in the case of  the **mountstorage** job that the **args** parameter contains a YAML reference. The **testtask** job's targets are also specified as a YAML reference. These references may be defined in your **datafile** and referred to in multiple places in your manifests. The datafile will be described shortly. First though, let's go through the job parameters that you can specify:
 
- + **YAML key** : Job name
+ + **YAML key** : job name
  + **task** : a Python import path pointing to a Python ''callable'' (usually a Fabric task)
  + **args** : a list of values to pass as arguments to the task callable
  + **kwargs** : a dictionary of values to pass as keyword-arguments to the task callable
@@ -109,3 +128,49 @@ Loom is built and packaged as a Twisted plugin and so the **'twistd'** command i
 Or if you'd like to see the output on stdout:
 
     twistd -n loom -c <path-to-your-loom-config>
+    
+updating configurations
+-----------------------
+
+Loom will automatically reload, going through the entire configuration and manifest parsing process anytime you change a file it already has loaded. This includes both the main configuration file and the node and job manifests. However note that Loom will not automatically detect new job manifests and load them. A restart of the daemon will be needed for that.
+    
+current outstanding issues
+--------------------------
+
+### logging
+ + Ampoule spams the twisted log and doesn't use the "system" keyword so that its messages can be filtered. Ampoule will probably need to be patched to fix this.
+ + Each job manifest should take a log option and we should route job output there
+ + Logging in general is unhandled and not investigated at this point
+ 
+### scheduler
+ + The scheduler is extremely basic. It makes no effort to track job success or failure, does not try to make up missed work and other things you might expect of a capable scheduler. We'll get there.
+ 
+### stability
+ + Loom needs a lot more exception handling
+ 
+### users
+ + Loom needs a lot more of them ;P
+ 
+ 
+things to look forward to
+-------------------------
+
+### reusable tasks
+ + Loom should provide a standard-library of sorts for system-management related Fabric tasks. They'd need to generic enough to be used widely.
+ + Perhaps we could even provide namespace packages like loom.apache, loom.debian, loom.whatever for categorically related generic Fabric libraries!
+
+### twistd subcommands
+ + I would like to support subcommands that you can provide to the 'twistd loom' command-line. Things like invoking jobs directly, turning jobs on and off by name, querying the scheduler in various ways, etc.
+ 
+### external interface
+ + at some point I would also like to expose similar abilities to interact with the scheduler via a web-api of some sort. Either REST or something like Amazon notifications
+ + web-interface!?
+ 
+### remote loom utility
+ + This will probably rely some amount on the external interface noted above but I'd like a utility that I can run on my local workstation that can interact with the loom server remotely. Mmmm.
+ 
+### resource manifests
+ + Being able to enforce resource manifests similar to other tools like Puppet or Chef using Fabric as the transport would be some fancy pants. I can only imagine that a good resource manifest layer would highly increase loom's general utility.
+
+### bash completion
+ + this is more of a wish-list item but being able to automatically tab-complete job and node names and their attributes would be handy
