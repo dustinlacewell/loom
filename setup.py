@@ -24,5 +24,5 @@ setup(
         ],
     package_data={'twisted': ['plugins/loom_plugin.py']},
     description="Centralized concurrent task-scheduling for clusters.",
-    long_description=open("README.markdown").read(),
+    long_description=open("README.markdown").read(),    
 )
