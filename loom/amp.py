@@ -2,7 +2,7 @@ import sys, cStringIO
 
 from twisted.protocols import amp
 
-from ampoule import child
+from ampoule import child                             
 
 from fabric.api import env
 
