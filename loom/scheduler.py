@@ -7,7 +7,7 @@ from ampoule import child, pool
 
 from loom import nodes, jobs, util, amp
 from loom.manifest import ManifestWatcher
-
+                                   
 default_config_paths = [
     '~/.loom.yaml',
     '/etc/loom.yaml',

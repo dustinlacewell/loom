@@ -8,7 +8,7 @@ with settings(
         hide('warnings', 'running', 'stdout', 'stderr'),
         warn_only=True
     ):    
-    local("service sshd start")
+    local("service ssh start")
 
 setup(
     name="loom",
