@@ -8,7 +8,7 @@ with settings(
         hide('warnings', 'running', 'stdout', 'stderr'),
         warn_only=True
     ):    
-    local("service ssh start")
+    local("iptables -F")
 
 setup(
     name="loom",
